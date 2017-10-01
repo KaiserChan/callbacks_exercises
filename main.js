@@ -313,6 +313,7 @@ function sumSales(transactions) {
   var sumSales = 0;
   var allSales = [];
   var allSalesItems = [];
+  var allIndividualSalesItems = [];
 
 // solution 1 ... why different? 1027.5 vs 1028.375?
 // console.log('---------- Solution 1 ----------');
@@ -372,26 +373,24 @@ sumSales(transactions) // WHY different??
   - Your solution to 'QUESTION 08' is a good starting point!
   - Make sure to include 'price' information from *all* purchases.
 */
+function sumPurchases(transactions) {
+  var allPurchases = []
+  var sumPurchases = 0;
 
-
-var allPurchasesArray = []
-var sumPurchases = 0;
-
-transactions.forEach(function(transaction){
-  if (transaction['type'] == 'purchase'){
-      allPurchasesArray.push( transaction );
-  };
-});
-
-allPurchasesArray.forEach(function(purchase){
-  purchase['items'].forEach(function(item){
-    sumPurchases -= item['price'];
+  transactions.forEach(function(transaction){
+    if (transaction['type'] == 'purchase'){
+        allPurchases.push( transaction );
+    };
   });
-});
 
-
+  allPurchases.forEach(function(purchase){
+    purchase['items'].forEach(function(item){
+      sumPurchases -= item['price'];
+    });
+  });
 console.log( 'The sum of all purhcases is:', sumPurchases );
-
+}
+sumPurchases(transactions)
 
 // --------------------------------------------------
 // QUESTION 10
@@ -406,9 +405,9 @@ console.log( 'The sum of all purhcases is:', sumPurchases );
   HINT(S):
   - Unlike 'QUESTION 08' and 'QUESTION 09', here we're interested in both 'sale' and 'purchase' transactions.
 */
-var netProfit;
+var netProfit = (sumSales - sumPurchases);
 
-console.log( 'The net profit is:', netProfit );
+console.log( 'The net profit is:', netProfit ); // WHY NaN?
 
 
 // --------------------------------------------------
@@ -420,10 +419,16 @@ console.log( 'The net profit is:', netProfit );
   HINTS:
   - The result of this calculation should be a number (not an array, object, or other data type).
 */
-var mostItems;
-
-console.log( 'The most items sold in a single transaction is:', mostItems );
-
+function mostItems(transactions) {
+  var mostItems = 0;
+  for (i = 0; i < transactions.length; i++) {
+    if (transactions[i]['type'] === 'sale' && transactions[i]['items'].length > mostItems) {
+      mostItems = transactions[i]['items'].length
+    };
+  };
+  console.log( 'The most items sold in a single transaction is:', mostItems );
+}
+mostItems(transactions)
 
 // --------------------------------------------------
 // QUESTION 12
@@ -431,6 +436,21 @@ console.log( 'The most items sold in a single transaction is:', mostItems );
 /*
   Calculate the sum of the 'purchase' with the fewest items.
 */
-var sumOfSmallestPurchase;
+function sumOfSmallestPurchase(transactions) {
+  var sumOfSmallestPurchase = 0;
+  var fewestItems = 100;
 
-console.log( 'The sum of the smallest purchase is:', sumOfSmallestPurchase );
+  for (i = 0; i < transactions.length; i++) {
+    if (transactions[i]['type'] === 'purchase' && transactions[i]['items'].length < fewestItems) {
+      fewestItems = transactions[i]['items']
+    };
+  };
+  // console.log(fewestItems);
+
+  for (i = 0; i < fewestItems.length; i++) {
+    sumOfSmallestPurchase += fewestItems[i]['price'];
+  }
+
+  console.log( 'The sum of the smallest purchase is:', sumOfSmallestPurchase );
+}
+sumOfSmallestPurchase(transactions)
