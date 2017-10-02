@@ -286,11 +286,11 @@ uniqueCustomers(transactions)
   - Individual transactions do not have either `name` or `numItems` properties, we'll have to add them to the output.
 */
 function bigSpenders(transactions) {
-  var individualTransaction = {};
   var bigSpenders = [];
 
   for (i = 0; i < transactions.length; i++) {
     if (transactions[i]['type'] === 'sale' && transactions[i]['items'].length >= 5) {
+      var individualTransaction = {};
       individualTransaction['name'] = transactions[i]['customer'];
       individualTransaction['numItems'] = transactions[i]['items'].length;
       bigSpenders.push(individualTransaction);
@@ -309,8 +309,9 @@ bigSpenders(transactions) // WHY REPEAT?
   HINT(S):
   - Transactions don't have 'prices', but their 'items' do!
 */
-function sumSales(transactions) {
-  var sumSales = 0;
+var sumSales = 0;
+
+function sumOfAllSales(transactions) {
   var allSales = [];
   var allSalesItems = [];
   var allIndividualSalesItems = [];
@@ -360,7 +361,7 @@ console.log('---------- Solution 3 ----------');
   });
   console.log( 'The sum of all sales is:', sumSales );
 }
-sumSales(transactions) // WHY different??
+sumOfAllSales(transactions) // WHY different??
 
 
 // --------------------------------------------------
@@ -373,9 +374,10 @@ sumSales(transactions) // WHY different??
   - Your solution to 'QUESTION 08' is a good starting point!
   - Make sure to include 'price' information from *all* purchases.
 */
-function sumPurchases(transactions) {
+var sumPurchases = 0;
+
+function sumOfAllPurchases(transactions) {
   var allPurchases = []
-  var sumPurchases = 0;
 
   transactions.forEach(function(transaction){
     if (transaction['type'] == 'purchase'){
@@ -390,7 +392,7 @@ function sumPurchases(transactions) {
   });
 console.log( 'The sum of all purhcases is:', sumPurchases );
 }
-sumPurchases(transactions)
+sumOfAllPurchases(transactions)
 
 // --------------------------------------------------
 // QUESTION 10
